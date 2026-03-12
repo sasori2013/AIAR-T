@@ -44,26 +44,32 @@ async function fetchAndUpdateText() {
  * Initialize 8thwall.org Image Target tracking events
  */
 const initAR = () => {
-  // 8thwall.org specific event names (matching OSS spec)
   const onImageFound = (event) => {
     const {name} = event.detail;
-    log(`[8thwall.org] Found Target: ${name}`);
+    log(`[OSS] Found Target: ${name}`);
     if (name === 'logo-target') {
       fetchAndUpdateText();
     }
   };
 
   const onImageLost = (event) => {
-    log(`[8thwall.org] Lost Target: ${event.detail.name}`);
+    log(`[OSS] Lost Target: ${event.detail.name}`);
   };
 
-// OSS version events are dispatched to the window or scene
-  window.addEventListener('xrimagefound', onImageFound);
-  window.addEventListener('xrimagelost', onImageLost);
+  // OSS version may use XR8 or XR global
+  const startListeners = () => {
+    window.addEventListener('xrimagefound', onImageFound);
+    window.addEventListener('xrimagelost', onImageLost);
+    window.addEventListener('xrprojectconfigloaded', () => log('[OSS] Project Config Loaded'));
+    window.addEventListener('xrsessionstarted', () => log('[OSS] Session Started'));
+    log('[OSS] Listeners active');
+  };
 
-  // Debug: Listen for engine status
-  window.addEventListener('xrprojectconfigloaded', () => log('[8thwall.org] Project Config Loaded'));
-  window.addEventListener('xrsessionstarted', () => log('[8thwall.org] Session Started'));
+  if (window.XR8) {
+    startListeners();
+  } else {
+    window.addEventListener('xr8enabled', startListeners);
+  }
 };
 
 window.addEventListener('keydown', (e) => {

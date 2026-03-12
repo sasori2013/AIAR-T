@@ -2,17 +2,14 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>8thwall.org Image Target - Initializing Lab</title>
-    <meta name="8thwall:appKey" content="6y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y">
+    <title>AIAR-T | 8th Wall 2026 OSS</title>
 
     <!-- A-Frame (Standard version) -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-    <!-- 8thwall.com Web SDK (Official CDN) -->
-    <script src="https://apps.8thwall.com/xrweb?appKey=6y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y3fO53y3Z1y"></script>
-
-    <!-- XRExtras (Official CDN) -->
-    <script src="https://cdn.8thwall.com/web/xrextras/xrextras.js"></script>
+    <!-- 8th Wall 2026 OSS Engine (Self-hosted) -->
+    <script src="./xr-engine/xr.js" data-preload-chunks="slam"></script>
+    <script src="./xr-engine/xrextras.js"></script>
 
     <script src="main.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -22,6 +19,7 @@
     <!-- A-Frame Scene -->
     <a-scene
       xrweb="disableWorldTracking: true; imageTargets: targets/logo-target.json; allowedDevices: any"
+      xrextras-resource="dir: xr-engine/"
       xrextras-gesture-detector
       xrextras-almost-there
       xrextras-loading
