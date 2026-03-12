@@ -26,17 +26,17 @@ async function fetchAndUpdateText() {
   const textEntity = document.querySelector('#lab-text');
   
   try {
-    console.log('Fetching dynamic data via 8thwall.org hook...');
+    log('Fetching dynamic data via 8thwall.org hook...');
     const response = await fetch(API_ENDPOINT);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     const data = await response.json();
     if (data && data.text) {
-      console.log('Updating text to:', data.text);
+      log('Updating text to: ' + data.text);
       textEntity.setAttribute('text', 'value', data.text);
     }
   } catch (error) {
-    console.error('Fetch failed:', error);
+    log('Fetch failed: ' + error);
   }
 }
 
@@ -47,14 +47,14 @@ const initAR = () => {
   // 8thwall.org specific event names (matching OSS spec)
   const onImageFound = (event) => {
     const {name} = event.detail;
-    console.log(`[8thwall.org] Found Target: ${name}`);
+    log(`[8thwall.org] Found Target: ${name}`);
     if (name === 'logo-target') {
       fetchAndUpdateText();
     }
   };
 
   const onImageLost = (event) => {
-    console.log(`[8thwall.org] Lost Target: ${event.detail.name}`);
+    log(`[8thwall.org] Lost Target: ${event.detail.name}`);
   };
 
 // OSS version events are dispatched to the window or scene
@@ -62,8 +62,8 @@ const initAR = () => {
   window.addEventListener('xrimagelost', onImageLost);
 
   // Debug: Listen for engine status
-  window.addEventListener('xrprojectconfigloaded', () => console.log('[8thwall.org] Project Config Loaded'));
-  window.addEventListener('xrsessionstarted', () => console.log('[8thwall.org] Session Started'));
+  window.addEventListener('xrprojectconfigloaded', () => log('[8thwall.org] Project Config Loaded'));
+  window.addEventListener('xrsessionstarted', () => log('[8thwall.org] Session Started'));
 };
 
 window.addEventListener('keydown', (e) => {
@@ -71,7 +71,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
-  console.log('[8thwall.org] DOM Content Loaded');
+  log('[8thwall.org] DOM Content Loaded');
   initAR();
 });
 
