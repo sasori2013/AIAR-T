@@ -1,7 +1,20 @@
 /**
  * main.js - 8thwall.org Image Target Logic
  */
-console.log('[8thwall.org] main.js loading...');
+const debugPanel = document.createElement('div');
+debugPanel.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100px;background:rgba(0,0,0,0.8);color:#0f0;font-size:10px;overflow:auto;z-index:10000;pointer-events:none;';
+document.body.appendChild(debugPanel);
+
+const log = (msg) => {
+  const p = document.createElement('p');
+  p.style.margin = '2px';
+  p.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+  debugPanel.prepend(p);
+  console.log(msg);
+};
+
+window.onerror = (msg, url, line) => log(`ERR: ${msg} @ ${line}`);
+log('main.js loading...');
 
 
 const API_ENDPOINT = './config.json';

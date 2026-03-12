@@ -3,13 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title>8thwall.org Image Target - Initializing Lab</title>
-    <meta name="8thwall:renderer" content="aframe:1.4.2">
+    <!-- A-Frame (Standard version) -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
     <!-- 8thwall.org Web SDK (Open Source / MIT) -->
     <script src="https://cdn.8thwall.org/web/xrweb/latest/xrweb.js"></script>
-
-    <!-- 8frame (8th Wall's version of A-Frame) -->
-    <script src="https://cdn.8thwall.org/web/8frame/latest/8frame.min.js"></script>
 
     <!-- XRExtras for 8thwall.org -->
     <script src="https://cdn.8thwall.org/web/xrextras/latest/xrextras.js"></script>
@@ -23,9 +21,7 @@
     <a-scene
       xrweb="disableWorldTracking: true; imageTargets: targets/logo-target.json; allowedDevices: any"
       xrextras-gesture-detector
-      xrextras-almost-there
-      xrextras-loading
-      xrextras-runtime-error>
+      xrextras-almost-there>
 
       <!-- Camera -->
       <a-camera
