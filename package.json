@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "build": "if [ -d public ]; then rm -rf public; fi && mkdir public && cp -rv index.html main.js style.css config.json targets img public/",
+    "build": "if [ -d public ]; then rm -rf public; fi && mkdir public && cp -rv index.html main.js style.css config.json targets img ar-engine public/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
