@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "start": "serve .",
-    "build": "mkdir -p dist && cp -rv index.html main.js style.css config.json targets img dist/",
+    "build": "mkdir -p public && cp -rv index.html main.js style.css config.json targets img public/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
