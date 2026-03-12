@@ -1,5 +1,8 @@
 # AIAR-T (8thwall.org AR Project)
 
+> [!IMPORTANT]
+> **Vercel Deploy Tip**: If binary assets or JSON targets don't seem to update, use **"Redeploy with Clean Build"** (Clear Cache) in the Vercel dashboard.
+
 2026年2月以降のオープンソース版 8th Wall を使用した AR プロジェクト。
 
 ## 構成

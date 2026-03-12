@@ -14,25 +14,19 @@
     <script async src="/ar-engine/xr-web.js" data-preload-chunks="slam,image"></script>
     <script src="/ar-engine/xrextras.js"></script>
 
-    <script>
-      window.addEventListener('xrloaded', () => {
-        // ターゲットに応じた初期化ロジック
-        const params = new URLSearchParams(window.location.search);
-        const target = params.get('target') || 'default';
-        console.log(`[OSS] Initialized. Target: ${target}`);
-      });
-    </script>
+
   </head>
 
   <body>
     <!-- A-Frame Scene -->
     <a-scene
       xrweb="disableWorldTracking: true; allowedDevices: any"
-      xrextras-resource="dir: /ar-engine/"
+      xrextras-resource-dir="/ar-engine/res/"
       xrextras-gesture-detector
       xrextras-almost-there
       xrextras-loading
-      xrextras-runtime-error>
+      xrextras-runtime-error
+      xr-target-handler>
 
       <!-- Camera -->
       <a-camera
