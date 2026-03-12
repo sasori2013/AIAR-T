@@ -1,6 +1,8 @@
 /**
  * main.js - 8thwall.org Image Target Logic
  */
+console.log('[8thwall.org] main.js loading...');
+
 
 const API_ENDPOINT = './config.json';
 
@@ -42,10 +44,23 @@ const initAR = () => {
     console.log(`[8thwall.org] Lost Target: ${event.detail.name}`);
   };
 
-  // OSS version events are dispatched to the window or scene
+// OSS version events are dispatched to the window or scene
   window.addEventListener('xrimagefound', onImageFound);
   window.addEventListener('xrimagelost', onImageLost);
+
+  // Debug: Listen for engine status
+  window.addEventListener('xrprojectconfigloaded', () => console.log('[8thwall.org] Project Config Loaded'));
+  window.addEventListener('xrsessionstarted', () => console.log('[8thwall.org] Session Started'));
 };
 
-window.addEventListener('load', initAR);
+window.addEventListener('keydown', (e) => {
+  if (e.key === 't') fetchAndUpdateText(); // Debug manual update
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('[8thwall.org] DOM Content Loaded');
+  initAR();
+});
+
 window.fetchAndUpdateText = fetchAndUpdateText;
+

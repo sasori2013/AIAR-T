@@ -2,7 +2,7 @@ body {
   margin: 0;
   overflow: hidden;
   font-family: sans-serif;
-  background-color: #000;
+  background-color: transparent; /* Changed from #000 to allow video feed visibility */
 }
 
 /* 8th Wall Loading Screen Customization (Optional) */
