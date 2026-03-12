@@ -7,12 +7,21 @@
     <!-- A-Frame (Standard version) -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
 
-    <!-- 8th Wall 2026 OSS Engine (Self-hosted) -->
-    <script src="./xr-engine/xr.js" data-preload-chunks="slam"></script>
-    <script src="./xr-engine/xrextras.js"></script>
-
     <script src="main.js"></script>
     <link rel="stylesheet" href="style.css">
+
+    <!-- 8th Wall 2026 OSS Engine (Self-hosted) -->
+    <script async src="/ar-engine/xr-web.js" data-preload-chunks="slam,image"></script>
+    <script src="/ar-engine/xrextras.js"></script>
+
+    <script>
+      window.addEventListener('xrloaded', () => {
+        // ターゲットに応じた初期化ロジック
+        const params = new URLSearchParams(window.location.search);
+        const target = params.get('target') || 'default';
+        console.log(`[OSS] Initialized. Target: ${target}`);
+      });
+    </script>
   </head>
 
   <body>

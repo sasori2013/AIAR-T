@@ -6,4 +6,4 @@ Thumbs.db
 .agents/
 *.log
 public/
-!xr-engine/
+!ar-engine/
