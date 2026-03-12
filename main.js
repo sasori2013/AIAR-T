@@ -1,0 +1,51 @@
+/**
+ * main.js - 8thwall.org Image Target Logic
+ */
+
+const API_ENDPOINT = './config.json';
+
+/**
+ * Fetch dynamic text from JSON and update the A-Frame entity
+ */
+async function fetchAndUpdateText() {
+  const textEntity = document.querySelector('#lab-text');
+  
+  try {
+    console.log('Fetching dynamic data via 8thwall.org hook...');
+    const response = await fetch(API_ENDPOINT);
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+    const data = await response.json();
+    if (data && data.text) {
+      console.log('Updating text to:', data.text);
+      textEntity.setAttribute('text', 'value', data.text);
+    }
+  } catch (error) {
+    console.error('Fetch failed:', error);
+  }
+}
+
+/**
+ * Initialize 8thwall.org Image Target tracking events
+ */
+const initAR = () => {
+  // 8thwall.org specific event names (matching OSS spec)
+  const onImageFound = (event) => {
+    const {name} = event.detail;
+    console.log(`[8thwall.org] Found Target: ${name}`);
+    if (name === 'logo-target') {
+      fetchAndUpdateText();
+    }
+  };
+
+  const onImageLost = (event) => {
+    console.log(`[8thwall.org] Lost Target: ${event.detail.name}`);
+  };
+
+  // OSS version events are dispatched to the window or scene
+  window.addEventListener('xrimagefound', onImageFound);
+  window.addEventListener('xrimagelost', onImageLost);
+};
+
+window.addEventListener('load', initAR);
+window.fetchAndUpdateText = fetchAndUpdateText;

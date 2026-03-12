@@ -1,0 +1,14 @@
+{
+  "name": "aiar-t",
+  "version": "1.0.0",
+  "description": "8thwall.org Image Target AR Project",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "build": "mkdir -p dist && cp -rv index.html main.js style.css config.json targets img dist/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}

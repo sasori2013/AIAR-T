@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+Thumbs.db
+8thwall-temp/
+.gemini/
+.agents/
+*.log
+dist/

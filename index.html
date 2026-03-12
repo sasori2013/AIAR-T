@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>8thwall.org Image Target - Initializing Lab</title>
+
+    <!-- A-Frame (Open source friendly version) -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+    <!-- 8thwall.org Web SDK (Open Source / MIT) -->
+    <!-- Self-hosting version: no proprietary API key required for local/OSS domains -->
+    <script src="https://cdn.8thwall.org/web/xrweb/latest/xrweb.js"></script>
+
+    <!-- XRExtras for 8thwall.org -->
+    <script src="https://cdn.8thwall.org/web/xrextras/latest/xrextras.js"></script>
+
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <!-- A-Frame Scene -->
+    <a-scene
+      xrweb="disableWorldTracking: true; imageTargets: targets/logo-target.json"
+      xrextras-gesture-detector
+      xrextras-almost-there
+      xrextras-loading
+      xrextras-runtime-error>
+
+      <!-- Camera -->
+      <a-camera
+        id="camera"
+        position="0 8 8"
+        raycaster="objects: .cantap"
+        cursor="fuse: false; rayOrigin: mouse;">
+      </a-camera>
+
+      <!-- Image Target (Local data reference) -->
+      <!-- 'logo-target' name should be defined inside targets/logo-target.json -->
+      <xrextras-named-image-target name="logo-target">
+        <!-- Floating 3D Text -->
+        <a-entity
+          id="lab-text"
+          position="0 0.5 0"
+          text="value: Initializing Lab...; align: center; width: 4; color: #00FFCC; font: https://cdn.aframe.io/fonts/Exo2Bold.fnt"
+          animation="property: position; to: 0 0.7 0; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine">
+        </a-entity>
+        
+        <a-plane 
+          rotation="-90 0 0" 
+          width="1.2" height="1.2" 
+          material="shader: flat; color: #00FFCC; opacity: 0.2; transparent: true">
+        </a-plane>
+      </xrextras-named-image-target>
+
+      <a-light type="ambient" intensity="0.5"></a-light>
+      <a-light type="directional" position="0 10 0" intensity="1"></a-light>
+
+    </a-scene>
+  </body>
+</html>

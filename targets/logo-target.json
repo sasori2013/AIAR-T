@@ -1,0 +1,23 @@
+{
+  "imagePath": "image-targets/logo-target_luminance.png",
+  "metadata": null,
+  "name": "logo-target",
+  "type": "PLANAR",
+  "properties": {
+    "left": 89,
+    "top": 0,
+    "width": 768,
+    "height": 1024,
+    "isRotated": false,
+    "originalWidth": 946,
+    "originalHeight": 1024
+  },
+  "resources": {
+    "originalImage": "logo-target_original.png",
+    "croppedImage": "logo-target_cropped.png",
+    "thumbnailImage": "logo-target_thumbnail.png",
+    "luminanceImage": "logo-target_luminance.png"
+  },
+  "created": 1773280439593,
+  "updated": 1773280439593
+}
