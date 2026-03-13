@@ -51,40 +51,55 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // OSS版 8th WallエンジンのHook
-  const onxrloaded = () => {
-    log('AIAR-T: Initializing OSS Engine Hook...');
+  const startEngine = (targetData) => {
+    log('AIAR-T: Starting OSS Engine...');
     
-    // CLIで生成したJSONを読み込んで注入
-    fetch('/targets/logo.json')
-      .then(response => {
-        if (!response.ok) throw new Error('Target JSON not found');
-        return response.json();
-      })
-      .then(targetData => {
-        log('Target JSON Data Loaded (OSS Inject)');
-        
-        // 2026年2月以降のOSS版パターン: 直接注入
-        XR8.XrController.configure({
-          imageTargets: [targetData]
-        });
-        log('XR8.XrController.configure completed.');
-      })
-      .catch(err => {
-        log('Error loading target JSON: ' + err.message);
-      });
+    // XrControllerの設定を注入
+    // 注意: XR8.run() の直前または直後に設定
+    XR8.XrController.configure({
+      imageTargets: [targetData]
+    });
+    log('XR8.XrController.configure completed.');
   };
+
+  async function init() {
+    log('[8thwall.org] Initializing App...');
+    
+    try {
+      // 1. Target JSON 読み込みを優先 (順序保証)
+      log('Fetching Target JSON...');
+      const response = await fetch('/targets/logo.json');
+      if (!response.ok) throw new Error('Target JSON not found');
+      const targetData = await response.json();
+      log('Target JSON Data Loaded (OSS)');
+
+      // 2. エンジン読み込み待機
+      if (!window.XR8) {
+        log('Waiting for XR8...');
+        await new Promise(resolve => window.addEventListener('xrloaded', resolve, {once: true}));
+      }
+      log('XR8 Ready.');
+
+      // 3. A-Frame Sceneにコンポーネントを追加して起動をトリガー
+      const scene = document.querySelector('a-scene');
+      
+      // エンジン開始直前に設定
+      startEngine(targetData);
+
+      // xrwebコンポーネントを動的に追加してエンジンを起動
+      scene.setAttribute('xrweb', 'disableWorldTracking: true; allowedDevices: any');
+      log('Engine Started via xrweb component.');
+
+    } catch (err) {
+      log('Initialization Error: ' + err.message);
+    }
+  }
+
+  init();
 
   window.addEventListener('keydown', (e) => {
     if (e.key === 't') fetchAndUpdateText(); // Debug manual update
   });
 
-  log('[8thwall.org] Initializing...');
-  // 8th Wallのロード完了を待機
-  if (window.XR8) {
-    onxrloaded()
-  } else {
-    window.addEventListener('xrloaded', onxrloaded)
-  }
-  
   window.fetchAndUpdateText = fetchAndUpdateText;
 });

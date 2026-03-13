@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- 8th Wall 2026 OSS Engine (Self-hosted) -->
-    <script async src="/ar-engine/xr-web.js" data-preload-chunks="slam,image"></script>
+    <script async src="/ar-engine/xr.js" data-preload-chunks="image,slam"></script>
     <script src="/ar-engine/xrextras.js"></script>
 
 
@@ -20,7 +20,6 @@
   <body>
     <!-- A-Frame Scene -->
     <a-scene
-      xrweb="disableWorldTracking: true; allowedDevices: any"
       xrextras-resource-dir="/ar-engine/res/"
       xrextras-gesture-detector
       xrextras-almost-there
