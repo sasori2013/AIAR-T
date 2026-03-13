@@ -5,7 +5,6 @@ Thumbs.db
 .gemini/
 .agents/
 *.log
-public/
 # Track engine and external assets for deployment
 !ar-engine/
 !external/
