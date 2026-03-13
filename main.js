@@ -69,7 +69,7 @@ window.addEventListener('DOMContentLoaded', () => {
     try {
       // 1. Target JSON 読み込みを優先 (順序保証)
       log('Fetching Target JSON...');
-      const response = await fetch('/targets/logo.json');
+      const response = await fetch('/logo.json');
       if (!response.ok) throw new Error('Target JSON not found');
       const targetData = await response.json();
       log('Target JSON Data Loaded (OSS)');
