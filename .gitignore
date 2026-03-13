@@ -6,5 +6,8 @@ Thumbs.db
 .agents/
 *.log
 # Track engine and external assets for deployment
+!public/
 !ar-engine/
 !external/
+!img/
+!targets/
