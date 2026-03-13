@@ -54,6 +54,13 @@ window.addEventListener('DOMContentLoaded', () => {
   const startEngine = (targetData) => {
     log('AIAR-T: Starting OSS Engine...');
 
+    // チャンクと物理ファイルの紐付け (Mapping)
+    XR8.XRWeb.configure({
+      image: 'image.js',
+      slam: 'slam.js'
+    });
+    log('XR8.XRWeb.configure: Chunks mapped to image.js, slam.js');
+
     // XrControllerの設定を注入
     // 注意: imageTargets は非推奨のため imageTargetData を使用
     XR8.XrController.configure({
