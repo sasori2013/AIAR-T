@@ -53,20 +53,14 @@ window.addEventListener('DOMContentLoaded', () => {
   // OSS版 8th WallエンジンのHook
   const startEngine = (targetData) => {
     log('AIAR-T: Starting OSS Engine...');
-
-    // チャンクと物理ファイルの紐付け (Mapping)
-    XR8.XRWeb.configure({
-      image: 'image.js',
-      slam: 'slam.js'
-    });
-    log('XR8.XRWeb.configure: Chunks mapped to image.js, slam.js');
-
-    // XrControllerの設定を注入
-    // 注意: imageTargets は非推奨のため imageTargetData を使用
-    XR8.XrController.configure({
-      imageTargetData: [targetData]
-    });
-    log('XR8.XrController.configure completed.');
+    if (window.XR8 && XR8.XrController) {
+      XR8.XrController.configure({
+        imageTargetData: [targetData]
+      });
+      log('XR8.XrController.configure completed.');
+    } else {
+      log('ERR: XrController not found. Image tracking failed to load.');
+    }
   };
 
   async function init() {
