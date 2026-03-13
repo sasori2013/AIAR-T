@@ -54,11 +54,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const startEngine = (targetData) => {
     log('AIAR-T: Starting OSS Engine...');
 
-    // Register modules to link chunks to physical files
-    XR8.addModule('image', {filename: 'xr-image.js'});
-    XR8.addModule('slam', {filename: 'xr-slam.js'});
-    log('AR Modules registered: image, slam');
-    
     // XrControllerの設定を注入
     // 注意: imageTargets は非推奨のため imageTargetData を使用
     XR8.XrController.configure({
