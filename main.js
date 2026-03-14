@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', () => {
     init: function() {
       this.el.addEventListener('xrimagefound', (e) => {
         log('[OSS] Target Found: ' + e.detail.name);
-        if (e.detail.name === 'logo-target') {
+        if (e.detail.name === 'vibe-coder') {
           fetchAndUpdateText();
         }
       });

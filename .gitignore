@@ -11,3 +11,6 @@ Thumbs.db
 !external/
 !img/
 !targets/
+
+# Environment Variables
+.env

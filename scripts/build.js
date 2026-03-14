@@ -13,6 +13,8 @@ const toCopy = [
   'main.js',
   'style.css',
   'config.json',
+  'logo.json',
+  'vibe-coder-final.png',
   'targets',
   'img',
   'ar-engine',
