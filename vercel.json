@@ -7,8 +7,8 @@
   "outputDirectory": "public",
   "rewrites": [
     {
-      "source": "/([0-9]{5})",
-      "destination": "/index.html"
+      "source": "/:serial([0-9]{5})",
+      "destination": "/"
     }
   ],
   "headers": [
