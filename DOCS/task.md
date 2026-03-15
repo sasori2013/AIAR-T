@@ -47,6 +47,13 @@
     - [x] Implement Gemini-based high-fidelity Vibe editing <!-- id: 132 -->
     - [x] Execute Spec 2.7 Production Registry (Master-based Truth) <!-- id: 133 -->
     - [x] Perform Spec 2.7 Visual QA (Overlap & Drift Check) <!-- id: 134 -->
+    - [x] Fix Vibe Design Drift (Fidelity Prompt Update) <!-- id: 135 -->
+
+- [x] Phase 15: Spec 3.0 Hardware Printer Implementation <!-- id: 140 -->
+    - [x] Update `production_orchestrator.py` to Spec 3.0 (Physical Transfer Mode) <!-- id: 141 -->
+    - [x] Implement "wet ink" stencil prompt logic <!-- id: 142 -->
+    - [x] Add 429 Resilience (30s interval + backoff logic) <!-- id: 143 -->
+    - [x] Execute Spec 3.0 Production Run & Visual QA <!-- id: 144 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->

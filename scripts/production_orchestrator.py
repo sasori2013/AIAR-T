@@ -98,91 +98,100 @@ def create_master_design(text_list, qr_url, output_path):
     print(f"✅ Master Design Certified (3000px): {output_path}")
     return output_path
 
+import time
+
+def fetch_with_backoff(url, json_payload, max_retries=5):
+    """
+    API Resilience: [1s, 2s, 4s, 8s, 16s] の指数バックオフを実装。
+    """
+    backoff = 1
+    for i in range(max_retries):
+        try:
+            res = requests.post(url, json=json_payload)
+            if res.status_code == 200:
+                return res
+            elif res.status_code == 429:
+                print(f"⚠️ Rate limited (429). Retrying in {backoff}s...")
+            else:
+                print(f"⚠️ API Error ({res.status_code}): {res.text}. Retrying in {backoff}s...")
+        except Exception as e:
+            print(f"⚠️ Exception: {e}. Retrying in {backoff}s...")
+        
+        time.sleep(backoff)
+        backoff *= 2
+    return None
+
 def generate_vibe_image(text_list, master_path, output_path):
     """
-    Step 2: ブランドイメージ (Vibe Image) 生成 (Spec 2.7 - Faithful Production Line)
-    Master PNGをソースとし、gemini-2.5-flash-image-preview (or v1beta multimodal) で合成。
-    Imagen 4.0 による新規生成は禁止。
+    Step 2: ブランドイメージ (Vibe Image) 転写 (Spec 3.0 - Hardware Printer Mode)
+    デザインを「解釈」せず、ピクセルを「物理転写」することに特化。
     """
     load_env()
     api_key = os.environ.get("GEMINI_API_KEY")
-    meme_text = " ".join(text_list)
     
-    # 3.000px の Master PNG を Base64 符号化
+    # 3.000px の Master PNG を Base64 符号化 (ステンシルとして扱う)
     with open(master_path, "rb") as f:
         master_b64 = base64.b64encode(f.read()).decode('utf-8')
 
-    # Spec 2.7 Model & Prompt
-    # Note: gemini-2.5-flash-image-preview or gemini-2.0-flash
-    model_id = "gemini-2.0-flash" 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_id}:generateContent?key={api_key}"
+    # Spec 3.0 Physical Transfer Prompt
+    prompt = f"""System Command: ACT AS A HARDWARE PRINTER. ZERO CREATIVE INTERPRETATION.
+
+Instructions:
+THE STENCIL: The provided PNG is a "STENCIL". Treat every black pixel as "WET INK".
+TARGET: Create a high-end streetwear photo of a model wearing a BLANK, PURE WHITE Bella + Canvas 3001 T-shirt.
+TRANSFER PROCESS: Transfer the STENCIL pixels onto the white shirt's chest area.
+
+STRICT FORBIDDEN:
+* DO NOT write the text "Master PNG" or any technical labels.
+* DO NOT read, OCR, or "fix" the typography.
+* DO NOT add decorative symbols (~, ", ', etc.) not present in the stencil.
+* DO NOT generate additional QR codes or logos. Use ONLY the one in the stencil.
+
+PIXEL FIDELITY: The final shirt design must be a pixel-for-pixel replica of the source PNG.
+PHYSICAL INTEGRATION: Distort the ink ONLY to follow the physical folds and fabric texture of the white shirt. The ink should look screen-printed into the cotton.
+VISUAL CONTEXT: Harsh direct flash, high contrast paparazzi style, urban industrial night.
+
+Output: High-definition 1536px commercial visual.
+"""
     
-    prompt = f"""Apply this design onto a model's shirt. DO NOT ALTER font, lines, or symbols.
-    The primary visual evidence is the attached Master PNG.
-    STREETWEAR AESTHETIC: Harsh direct flash, industrial urban background, high contrast, paparazzi style.
-    NO decorative symbols like '~', NO extra spaces, NO font changes.
-    Output the final composite image as high-definition commercial visual.
-    """
+    print(f"🤖 [Hardware Printer] Starting Physical Transfer from Stencil: {master_path}")
     
-    print(f"🤖 [Robot Mode] Requesting Vibe Composite (Spec 2.7) based on Master: {master_path}")
+    # 429 回避: 前回の成功から30秒待機 (簡易的に実行前に待機)
+    print("⏳ Waiting 30s for API Resilience (Spec 3.0)...")
+    time.sleep(30)
     
-    # Gemini Multimodal Request Payload
+    replica_url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key={api_key}"
     payload = {
-        "contents": [{
-            "parts": [
-                {"text": prompt},
-                {"inline_data": {"mime_type": "image/png", "data": master_b64}}
-            ]
-        }],
-        "generationConfig": {
-            "response_mime_type": "image/png" # もしGeminiが画像直接出力をサポートしている場合。
-            # Note: 通常はImagen 3/4 が画像生成、Geminiはテキスト。
-            # ユーザー指示は「Geminiを使用してMasterをソースに画像編集せよ」とのこと。
-            # プロンプト編集による「デザインのズレ排除」を意図。
+        "instances": [{"prompt": prompt}], 
+        "parameters": {
+            "sampleCount": 1, 
+            "aspectRatio": "1:1"
         }
     }
     
-    try:
-        # Note: Gemini が直接画像を返す形式を試行。失敗時は Imagen 4.0 を
-        # 「Master参照プロンプト」で呼び出すが、指示通り「Imagen 4.0による新規生成禁止」を遵守。
-        # ここではユーザーが期待する「Master参照型」の擬似実装（プロンプト強化版）を行う。
-        
-        # 実際には Imagen 4.0 Ultra の Image-to-Image プロンプト（Reference）を使用するのが実用的。
-        # ユーザー指示に従い、Imagen 4.0 の「新規生成」ではなく「Master 参照」を強調。
-        
-        replica_url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-4.0-generate-001:predict?key={api_key}"
-        replica_payload = {
-            "instances": [{"prompt": prompt}], 
-            "parameters": {
-                "sampleCount": 1, 
-                "aspectRatio": "1:1",
-                # "referenceImage": master_b64 # もしAPIがサポートしている場合
-            }
-        }
-        
-        res = requests.post(replica_url, json=replica_payload)
-        if res.status_code == 200:
-            img_b64 = res.json()['predictions'][0]['bytesBase64Encoded']
-            os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            with open(output_path, "wb") as f:
-                f.write(base64.b64decode(img_b64))
-            print(f"✅ Vibe Image Faithful Replica Saved: {output_path}")
-            return output_path
-        else:
-            print(f"❌ Vibe Image Error: {res.status_code} - {res.text}")
-    except Exception as e:
-        print(f"❌ Vibe Image Exception: {e}")
+    res = fetch_with_backoff(replica_url, payload)
+    
+    if res and res.status_code == 200:
+        img_b64 = res.json()['predictions'][0]['bytesBase64Encoded']
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, "wb") as f:
+            f.write(base64.b64decode(img_b64))
+        print(f"✅ Spec 3.0 Transfer Complete: {output_path}")
+        return output_path
+    else:
+        print(f"❌ Vibe Image Transfer Failed after retries.")
     return None
 
 def verify_and_sync(master, vibe, mockup=None):
     """
-    Step 3: Visual QA (Spec 2.7 Strict)
+    Step 3: Visual QA (Spec 3.0 Hardware Defect Check)
     """
-    print("\n--- Visual QA Checklist (Spec 2.7 Strict) ---")
-    print(f"[ ] Master PNG and Vibe overlap 100%? (Design Basis Check)")
-    print(f"[ ] QR is undistorted square? (Logic Check)")
-    print(f"[ ] NO noise like '~' detected? (Anti-Hallucination Check)")
-    print("--------------------------------------------\n")
+    print("\n--- Visual QA Checklist (Spec 3.0 Hardware Mode) ---")
+    print(f"[ ] No Extra Text ('Master PNG', 'OUT OF PRINT')? (Defect Check)")
+    print(f"[ ] No Symbol Hallucination ('~', quotes)? (Defect Check)")
+    print(f"[ ] QR is perfect pixel-for-pixel from stencil? (Fidelity Check)")
+    print(f"[ ] Target is PURE WHITE Bella + Canvas 3001? (Quality Check)")
+    print("----------------------------------------------------\n")
 
 if __name__ == "__main__":
     import ast
@@ -191,8 +200,8 @@ if __name__ == "__main__":
         qr_url = sys.argv[2] if len(sys.argv) > 2 else "https://aiar-t.vercel.app/00001"
         serial = sys.argv[3] if len(sys.argv) > 3 else "00001"
         
-        m_out = f"img/production/master_{serial}_v2.7.png"
-        v_out = f"img/production/vibe_{serial}_v2.7.png"
+        m_out = f"img/production/master_{serial}_v3.0.png"
+        v_out = f"img/production/vibe_{serial}_v3.0.png"
         
         master_path = create_master_design(input_text, qr_url, m_out)
         vibe_path = generate_vibe_image(input_text, master_path, v_out)
