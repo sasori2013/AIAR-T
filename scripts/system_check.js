@@ -13,7 +13,7 @@ function loadEnv() {
       const parts = line.split('=');
       if (parts.length >= 2) {
         const key = parts[0].trim();
-        const value = parts.slice(1).join('=').trim();
+        const value = parts.slice(1).join('=').trim().replace(/^['"]|['"]$/g, '');
         process.env[key] = value;
       }
     });
@@ -29,7 +29,7 @@ const {
   GEMINI_API_KEY
 } = process.env;
 
-const SHOPIFY_API_VERSION = "2026-01";
+const SHOPIFY_API_VERSION = "2024-01";
 
 async function verifyShopify() {
   console.log(`📡 Shopify (${SHOPIFY_SHOP}) への接続を確認中...`);
@@ -46,7 +46,8 @@ async function verifyShopify() {
       console.log(`✅ Shopify 接続成功: ${data.shop.name}`);
       return true;
     } else {
-      console.log(`❌ Shopify 接続失敗: ${r.status}`);
+      const errorText = await r.text();
+      console.log(`❌ Shopify 接続失敗: ${r.status} - ${errorText}`);
       return false;
     }
   } catch (e) {
@@ -59,7 +60,7 @@ async function verifyPrintful() {
   console.log(`📡 Printful への接続を確認中...`);
   const url = "https://api.printful.com/stores";
   if (!PRINTFUL_ACCESS_TOKEN) {
-    console.log("❌ Printful 接続失敗: トークンが設定されていません。");
+    console.log("❌ Printful 接続失敗: PRINTFUL_ACCESS_TOKEN が設定されていません。");
     return false;
   }
   try {
@@ -73,7 +74,8 @@ async function verifyPrintful() {
       stores.forEach(s => console.log(`   - ${s.name} (ID: ${s.id})`));
       return true;
     } else {
-      console.log(`❌ Printful 接続失敗: ${r.status}`);
+      const errorText = await r.text();
+      console.log(`❌ Printful 接続失敗: ${r.status} - ${errorText}`);
       return false;
     }
   } catch (e) {
@@ -85,21 +87,23 @@ async function verifyPrintful() {
 async function verifyGemini() {
   console.log(`📡 Gemini API への接続を確認中...`);
   if (!GEMINI_API_KEY) {
-    console.log("❌ Gemini API 接続失敗: APIキーが設定されていません。");
+    console.log("❌ Gemini API 接続失敗: GEMINI_API_KEY が設定されていません。");
     return false;
   }
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+  // v1 版の 1.5-flash エンドポイント
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
   try {
     const r = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: "Hi" }] }] })
+      body: JSON.stringify({ contents: [{ parts: [{ text: "Respond only with 'OK'." }] }] })
     });
     if (r.ok) {
       console.log(`✅ Gemini API 接続成功`);
       return true;
     } else {
-      console.log(`❌ Gemini API 接続失敗: ${r.status}`);
+      const errorText = await r.text();
+      console.log(`❌ Gemini API 接続失敗: ${r.status} - ${errorText}`);
       return false;
     }
   } catch (e) {
