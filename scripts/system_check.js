@@ -99,16 +99,15 @@ async function verifyGemini() {
     console.log("❌ Gemini API 接続失敗: GEMINI_API_KEY が設定されていません。");
     return false;
   }
-
-  // 複数の候補を試行
+  // 2026 Specification: 複数の候補を試行（2.5 / 2.0 が現在の主流）
   const endpoints = [
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`
+    `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`
   ];
 
   for (const url of endpoints) {
-    const displayUrl = url.split('?')[0];
+    const displayUrl = url.split('?')[0].split('/').pop();
     try {
       const r = await fetch(url, {
         method: 'POST',

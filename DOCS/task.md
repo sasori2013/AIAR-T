@@ -31,9 +31,10 @@
     - [x] Track source assets (img/source/) in repository <!-- id: 92 -->
     - [x] Finalize Handover Manifest for new Antigravity session <!-- id: 93 -->
 
-- [x] Phase 10: Shopify Authentication Recovery <!-- id: 95 -->
+- [x] Phase 10: Full System Authentication & Model Recovery <!-- id: 95 -->
     - [x] Automated token exchange via shopify_auth.js <!-- id: 96 -->
-    - [x] Validated Shopify/Printful connectivity (GREEN) <!-- id: 97 -->
+    - [x] Validated Shopify/Printful/Gemini connectivity (ALL GREEN) <!-- id: 97 -->
+    - [x] Resolved Gemini 404 via 2026 Model Standard Update (gemini-2.0-flash) <!-- id: 98 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->
