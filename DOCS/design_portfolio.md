@@ -1,44 +1,45 @@
-# AIAR-T Design Portfolio & Production Standards (Spec 2.0)
+# AIAR-T Design Portfolio & Production Standards (Spec 2.7)
 
-本プロジェクトでは、1つの商品（UUID）に対して役割の異なる3つの画像を生成し、プレミアム価値と製造精度を両立させる。
-
-## 1. 3-Layer Asset Production Strategy
-
-| 役割 | 生成ツール | 用途 | ビジネス上の役割 |
-| :--- | :--- | :--- | :--- |
-| **1. 印刷用原版 (Master)** | `scripts/create_perfect_master.py` | Printful 直接入稿 | 製造の正確性と配置ミス排除 |
-| **2. ブランド画像 (Vibe)** | `Imagen 4.0 Ultra` | Shopify / SNS 広告 | プレミアム価格を正当化するブランド価値 |
-| **3. 実物確認用 (Mockup)** | `Printful Mockup API` | Shopify メイン画像 | クレームリスク（実物相違）の回避 |
+> [!IMPORTANT]
+> **エージェント動作モード: 忠実な生産ライン**
+> デザインの根拠は常に Master PNG に置くこと。独創性を排し、Master データの視覚的完全性を維持せよ。
 
 ---
 
-## 2. 印刷用原版 (Master Design) 物理仕様 (Spec 2.3 Revised)
-Python (Pillow) スクリプトにより、3000px（高品質と安定性のバランス）を強制する。
+## 1. 印刷用原版 (Master Design) 絶対ルール
+`scripts/production_orchestrator.py` を使用し、以下の数値を強制する。
 
 | Specification | Value | Note |
 | :--- | :--- | :--- |
-| Resolution | **3000 x 3000 px** | 安定性を考慮しつつ製造精度を保証 |
-| Text Occupancy | **95% (2850px)** | 極限まで巨大化。左右余白 2.5% |
-| QR Size | **600 x 600 px** | 3000px キャンバスに合わせて調整 |
-| QR Adhesion | **100px** | テキスト最終行の直下に密着 |
-| Background | 100% Transparent | Alpha 0 |
-| Prohibition | **Imagen 使用禁止** | 配置崩れ・解像度不足を避けるため |
+| Resolution | **3000 x 3000 px** | 1:1 正方形。絶対基準。 |
+| Text Input | **2-line List Only** | 3行以上、または1行のみを厳禁とする。 |
+| Text Occupancy | **95% (2850px)** | 最大幅をキャンバス幅の 95% に固定。 |
+| QR Size | **600 x 600 px** | 歪みのない正方形を維持。 |
+| QR Adhesion | **80px** | テキスト最終行の直下に密着。 |
+| Background | 100% Transparent | Tシャツの形状や装飾を描写しない。 |
 
 ---
 
-## 3. ブランド・イメージ画像 (Vibe Image) (Retina Optimized)
-Imagen 4.0 Ultra を使用し、1024px から 1.5倍にスケールアップした **1536px 相当** の高精細出力を狙う。
+## 2. ブランド・イメージ画像 (Vibe Image) 絶対ルール
+`gemini-2.5-flash-image-preview` 等を使用し、**Master PNG をソースとする画像編集**を実行する。Imagen 4.0 による新規生成はハルシネーション防止のため禁止。
 
-**Prompt Strategy:**
-- **Aesthetic**: "Hard Flash photography", "Street-luxury lookbook", "Paparazzi aesthetic".
-- **Lighting**: "Harsh direct flash", "High contrast", "Deep sharp shadows".
-- **Subject**: "Model wearing the white T-shirt with the '{meme_text}' text clearly visible".
-- **Prohibition**: NO technical diagrams, NO arrows, NO dimensions. Pure visual vibe.
+**Prompt Requirements:**
+- **Source-Based**: 必ず Step 1 で生成した Master PNG を入力データとして参照させる。
+- **Core Instruction**: "Apply this design onto a model's shirt. DO NOT ALTER font, lines, or symbols."
+- **Prohibition**: 文字の下線、波線（〜）、ドット、影、引用符の勝手な追加を厳禁とする。
+- **Style**: "Hard flash, paparazzi style, industrial background."
+- **Resolution**: **1536px** (Retina/Web Optimized).
 
 ---
 
-## 4. Visual QA Checklist
-- [ ] **Master Check**: Python スクリプトで生成され、布の質感が混入していないか。
-- [ ] **Vibe Check**: Imagen 4.0 Ultra により、高価格帯ブランドの風格が出ているか。
-- [ ] **Mockup Check**: Printful 公式 API から取得した「実物」に近い画像か。
-- [ ] **Sync Check**: Shopify の 3枚 の画像が、上記 1〜3 の順で並んでいるか。
+## 3. Error Handling & Visual QA
+以下の事象が確認された場合、即座にアセットを破棄し再生成せよ。
+
+1. **デザインのズレ**: Master PNG と Vibe 画像の間で、改行位置や文字の形状が1ミリでも異なる場合。
+2. **装飾の混入**: 意図しない波線（〜）やドット、エフェクトの追加。
+3. **低解像度感**: 合成結果がボケている、または不自然に浮いている。
+
+**Visual QA Checklist:**
+- [ ] Master PNG と Vibe 画像の文字配置が 100% 重なるか？
+- [ ] QRコードは正方形であり、読み取り可能か？
+- [ ] Vibe 画像に「〜」などの余計なノイズが入っていないか？

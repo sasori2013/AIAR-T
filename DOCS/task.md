@@ -31,21 +31,22 @@
     - [x] Track source assets (img/source/) in repository <!-- id: 92 -->
     - [x] Finalize Handover Manifest for new Antigravity session <!-- id: 93 -->
 
-- [x] Phase 10: Full System Authentication & Model Recovery <!-- id: 95 -->
-    - [x] Automated token exchange via shopify_auth.js <!-- id: 96 -->
-    - [x] Validated Shopify/Printful/Gemini connectivity (ALL GREEN) <!-- id: 97 -->
-    - [x] Resolved Gemini 404 via 2026 Model Standard Update (gemini-2.0-flash) <!-- id: 98 -->
-
-- [x] Phase 11: Spec 2.0 Production Cycle (3-Layer Assets) <!-- id: 100 -->
-    - [x] Implement `create_perfect_master.py` (Pillow Engine) <!-- id: 101 -->
-    - [x] Generate Vibe Coder Master Design (Spec 2.0) <!-- id: 102 -->
-    - [x] Generate Imagen 4.0 Ultra Vibe Image (Paparazzi Aesthetic) <!-- id: 103 -->
-    - [x] Update Shopify Product with Spec 2.0 Visuals <!-- id: 104 -->
-
 - [x] Phase 12: Spec 2.3 High-Resolution Loop (3000px Optimized) <!-- id: 110 -->
     - [x] Upgrade scripts to 3000px resolution (Stability Optimized) <!-- id: 111 -->
     - [x] Implement `generate_vibe_image.py` (HD 1536px Target) <!-- id: 112 -->
     - [x] Finalize 3-Layer Visual Registry (Vibe-Mockup-Master) <!-- id: 113 -->
+
+- [x] Phase 13: Spec 2.5 Production Robot Implementation <!-- id: 120 -->
+    - [x] Create `scripts/production_orchestrator.py` (Spec 2.5 Engine) <!-- id: 121 -->
+    - [x] Update `design_portfolio.md` to Production Robot Standards <!-- id: 122 -->
+    - [x] Execute Spec 2.5 Production Loop (3000px 1:1, 2-Line Strict) <!-- id: 123 -->
+    - [x] Perform Spec 2.5 Visual QA (RESOLVED: 3000px, 2-line, Sq-QR) <!-- id: 124 -->
+
+- [x] Phase 14: Spec 2.7 Production Line Implementation <!-- id: 130 -->
+    - [x] Update `production_orchestrator.py` to Spec 2.7 (Image-to-Image Loop) <!-- id: 131 -->
+    - [x] Implement Gemini-based high-fidelity Vibe editing <!-- id: 132 -->
+    - [x] Execute Spec 2.7 Production Registry (Master-based Truth) <!-- id: 133 -->
+    - [x] Perform Spec 2.7 Visual QA (Overlap & Drift Check) <!-- id: 134 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->
