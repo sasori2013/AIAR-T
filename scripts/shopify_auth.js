@@ -13,7 +13,7 @@ function loadEnv() {
       const parts = line.split('=');
       if (parts.length >= 2) {
         const key = parts[0].trim();
-        const value = parts.slice(1).join('=').trim();
+        const value = parts.slice(1).join('=').trim().replace(/^['"]|['"]$/g, '');
         process.env[key] = value;
       }
     });

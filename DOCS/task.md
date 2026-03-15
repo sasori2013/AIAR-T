@@ -21,10 +21,19 @@
     - [x] Deployed Master Spec 1.2: 2D Monolith Precision (Top 30%, 50px Gap) <!-- id: 76 -->
     - [x] Deployed Master Spec 1.1: Upper-Focused Monolith (Top 40%, Tight Adhesion) <!-- id: 75 -->
 
-- [/] Phase 8: GitHub Management & Synchronization <!-- id: 80 -->
-    - [/] Analyze and track production scripts <!-- id: 81 -->
-    - [ ] Move artifacts (Design Portfolio, Walkthrough) into repo <!-- id: 82 -->
-    - [ ] Commit and Push all finalized production tools <!-- id: 83 -->
+- [x] Phase 8: GitHub Management & Synchronization <!-- id: 80 -->
+    - [x] Analyze and track production scripts <!-- id: 81 -->
+    - [x] Move artifacts (Design Portfolio, Walkthrough) into repo <!-- id: 82 -->
+    - [x] Commit and Push all finalized production tools <!-- id: 83 -->
+
+- [x] Phase 9: Mac Handover & Portability Audit <!-- id: 90 -->
+    - [x] Refactor scripts for relative pathing (Mac/Win support) <!-- id: 91 -->
+    - [x] Track source assets (img/source/) in repository <!-- id: 92 -->
+    - [x] Finalize Handover Manifest for new Antigravity session <!-- id: 93 -->
+
+- [x] Phase 10: Shopify Authentication Recovery <!-- id: 95 -->
+    - [x] Automated token exchange via shopify_auth.js <!-- id: 96 -->
+    - [x] Validated Shopify/Printful connectivity (GREEN) <!-- id: 97 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->

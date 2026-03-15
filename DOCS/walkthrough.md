@@ -17,9 +17,9 @@
 ### 3. System Verification
 - **Script**: [system_check.js](file:///c:/Users/kenxx/AIAR-T/scripts/system_check.js)
 - **Validation**:
-    - ✅ **Shopify**: Success (Admin API 2026-01)
+    - ✅ **Shopify**: Success (Admin API 2024-01) - **Auto-Sync OK**
     - ✅ **Printful**: Success (Detecting 1 store)
-    - ✅ **GCP/Gemini**: Credentials migrated and verified in `.env`.
+    - ⚠️ **GCP/Gemini**: (Optional) Connection Issue (Does not affect store production)
 
 ## Mission Complete: Master Spec 1.2 (2D Monolith Precision) 🏆
 
@@ -47,11 +47,14 @@ Shopify 商品ページは以下の「Spec 1.2 確定版」で更新されまし
 これにて、AI の生成能力を物理的な生産仕様の枠組みに完全に抑え込み、常に最高品質の入稿データを自律生成するシステムが完成しました。
 
 ---
-## 次のステップ
-- **プロダクションループ**: 同様のフローを 00002 以降のシリアル番号にも適用し、ブランドの一貫性を保ちます。
-- **AR連携**: 各商品ページが対応する AR 演出ページへ正しくリンクされているか最終巡回を行います。
-- **Production Loop**: Printful API との連携により、テクニカルモックアップの生成も自動化されました。
+---
+## Mission Recovery: Automated Authentication Auto-Sync 🔑
 
-これにて、「入稿データの正確性」と「ブランドとしての視覚的魅力」を高いレベルで両立する自動運用ループが完成しました。
+Mac 移行および環境変数のコピペに伴う認証エラー（401 Unauthorized）を、最新の自動認証スクリプトを用いて完全に解決しました。
+
+1.  **自動トークン交換の実装**:
+    - `scripts/shopify_auth.js` を実行し、`.env` 内の Client ID と Secret を用いて Shopify Admin API アクセストークンを自動取得・更新する仕組みを導入しました。
+2.  **ポータビリティの完成**:
+    - これにより、Mac でも Windows でも、Client ID さえあればコマンド一つで常に最新のトークンを取得し、安定して「Future Lab」の生産を継続できる体制が整いました。
 
 [View Final Task List](file:///C:/Users/kenxx/.gemini/antigravity/brain/bcb6931c-b705-4b21-971e-ce918e593690/task.md)
