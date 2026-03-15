@@ -5,8 +5,8 @@ const sharp = require('sharp');
 const path = require('path');
 
 async function compositeDesign() {
-  const baseImage = "C:/Users/kenxx/.gemini/antigravity/brain/bcb6931c-b705-4b21-971e-ce918e593690/vibe_coder_digital_design_v3_1773468608205.png";
-  const qrImage = path.resolve(__dirname, '../qr_00001.png');
+  const typographySource = path.resolve(__dirname, '../img/source/typography_vibe_coder.png');
+  const qrImage = path.resolve(__dirname, '../img/source/qr_00001.png');
   const outPath = path.resolve(__dirname, '../vibe-coder-master-v1.png');
 
   // Printful 15" x 18" at 150 DPI = 2250 x 2700 px
@@ -19,7 +19,6 @@ async function compositeDesign() {
     // ==========================================
     // PHYSICAL SPECIFICATIONS (HARDCODED MASTER SPEC 1.2)
     // ==========================================
-    const baseImage = "C:/Users/kenxx/.gemini/antigravity/brain/bcb6931c-b705-4b21-971e-ce918e593690/vibe_coder_2d_monolith_spec_1_2_1773538384939.png";
     const WIDTH_OCCUPANCY = 0.95; 
     const MAX_WIDTH = Math.floor(CANVAS_WIDTH * WIDTH_OCCUPANCY); // 2137px
     const UPPER_LIMIT = Math.floor(CANVAS_HEIGHT * 0.3); // 810px (Upper 30% Area)
@@ -29,7 +28,7 @@ async function compositeDesign() {
     console.log(`📏 Master Spec 1.2: Width=${MAX_WIDTH}px (95%), Design-Area=${UPPER_LIMIT}px`);
 
     // 1. Prepare Typography (Auto-Trim to ensure 95% occupancy is based on INK ONLY)
-    let typographyBuffer = await sharp(baseImage).trim().toBuffer();
+    let typographyBuffer = await sharp(typographySource).trim().toBuffer();
     
     // Scale to MAX_WIDTH
     const typography = await sharp(typographyBuffer)
