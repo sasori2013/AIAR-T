@@ -35,6 +35,12 @@
     - [x] Automated token exchange via shopify_auth.js <!-- id: 96 -->
     - [x] Validated Shopify/Printful/Gemini connectivity (ALL GREEN) <!-- id: 97 -->
     - [x] Resolved Gemini 404 via 2026 Model Standard Update (gemini-2.0-flash) <!-- id: 98 -->
+
+- [x] Phase 11: Spec 2.0 Production Cycle (3-Layer Assets) <!-- id: 100 -->
+    - [x] Implement `create_perfect_master.py` (Pillow Engine) <!-- id: 101 -->
+    - [x] Generate Vibe Coder Master Design (Spec 2.0) <!-- id: 102 -->
+    - [x] Generate Imagen 4.0 Ultra Vibe Image (Paparazzi Aesthetic) <!-- id: 103 -->
+    - [x] Update Shopify Product with Spec 2.0 Visuals <!-- id: 104 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->
