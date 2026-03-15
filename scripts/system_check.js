@@ -34,6 +34,14 @@ const SHOPIFY_API_VERSION = "2024-01";
 async function verifyShopify() {
   console.log(`📡 Shopify (${SHOPIFY_SHOP}) への接続を確認中...`);
   const url = `https://${SHOPIFY_SHOP}/admin/api/${SHOPIFY_API_VERSION}/shop.json`;
+  console.log(`   URL: ${url}`);
+  
+  if (!SHOPIFY_ACCESS_TOKEN) {
+    console.log("❌ Shopify 接続失敗: SHOPIFY_ACCESS_TOKEN が未設定です。");
+    return false;
+  }
+  console.log(`   Token Check: ${SHOPIFY_ACCESS_TOKEN.substring(0, 10)}... (Length: ${SHOPIFY_ACCESS_TOKEN.length})`);
+
   try {
     const r = await fetch(url, {
       headers: {
@@ -48,6 +56,7 @@ async function verifyShopify() {
     } else {
       const errorText = await r.text();
       console.log(`❌ Shopify 接続失敗: ${r.status} - ${errorText}`);
+      console.log(`   💡 ヒント: Shopify管理画面でアプリの権限（Scopes）が有効か、トークンが正しいか確認してください。`);
       return false;
     }
   } catch (e) {
@@ -90,33 +99,41 @@ async function verifyGemini() {
     console.log("❌ Gemini API 接続失敗: GEMINI_API_KEY が設定されていません。");
     return false;
   }
-  // v1 版の 1.5-flash エンドポイント
-  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-  try {
-    const r = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: "Respond only with 'OK'." }] }] })
-    });
-    if (r.ok) {
-      console.log(`✅ Gemini API 接続成功`);
-      return true;
-    } else {
-      const errorText = await r.text();
-      console.log(`❌ Gemini API 接続失敗: ${r.status} - ${errorText}`);
-      return false;
+
+  // 複数の候補を試行
+  const endpoints = [
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${GEMINI_API_KEY}`
+  ];
+
+  for (const url of endpoints) {
+    const displayUrl = url.split('?')[0];
+    try {
+      const r = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: "Respond only with 'OK'." }] }] })
+      });
+      if (r.ok) {
+        console.log(`✅ Gemini API 接続成功 (${displayUrl})`);
+        return true;
+      }
+    } catch (e) {
+      // 次の試行へ
     }
-  } catch (e) {
-    console.log(`⚠️ Gemini API エラー: ${e.message}`);
-    return false;
   }
+
+  console.log("❌ Gemini API 接続失敗: すべてのエンドポイントが 404 またはエラーを返しました。");
+  console.log("   💡 ヒント: Google AI Studio で API キーが有効か、またはプロジェクト設定を確認してください。");
+  return false;
 }
 
 async function run() {
   console.log("🚀 Future Lab 統合システム チェック開始\n");
   const s_ok = await verifyShopify();
   const p_ok = await verifyPrintful();
-  const g_ok = await verifyGemini(); // Geminiはオプション
+  const g_ok = await verifyGemini(); 
   
   console.log("\n" + "=".repeat(50));
   if (s_ok && p_ok) {
