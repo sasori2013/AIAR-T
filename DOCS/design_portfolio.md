@@ -12,22 +12,22 @@
 
 ---
 
-## 2. 印刷用原版 (Master Design) 物理仕様
-Python (Pillow) スクリプトにより、以下の数値を「1pxの狂いもなく」強制する。
+## 2. 印刷用原版 (Master Design) 物理仕様 (Spec 2.3 Revised)
+Python (Pillow) スクリプトにより、3000px（高品質と安定性のバランス）を強制する。
 
 | Specification | Value | Note |
 | :--- | :--- | :--- |
-| Resolution | 2250 x 2700 px | Printful 15x18 Guideline |
-| Design Block | Upper Section | Python で制御（上部 200px 起点） |
-| Text Occupancy | **95% (2137px)** | 極限まで巨大化。左右余白 2.5% |
-| QR Adhesion | **50px - 80px** | テキスト最終行の直下に密着 |
+| Resolution | **3000 x 3000 px** | 安定性を考慮しつつ製造精度を保証 |
+| Text Occupancy | **95% (2850px)** | 極限まで巨大化。左右余白 2.5% |
+| QR Size | **600 x 600 px** | 3000px キャンバスに合わせて調整 |
+| QR Adhesion | **100px** | テキスト最終行の直下に密着 |
 | Background | 100% Transparent | Alpha 0 |
 | Prohibition | **Imagen 使用禁止** | 配置崩れ・解像度不足を避けるため |
 
 ---
 
-## 3. ブランド・イメージ画像 (Vibe Image) 
-Imagen 4.0 Ultra を使用し、以下のプロンプト戦略で「憧れ」を醸成する。
+## 3. ブランド・イメージ画像 (Vibe Image) (Retina Optimized)
+Imagen 4.0 Ultra を使用し、1024px から 1.5倍にスケールアップした **1536px 相当** の高精細出力を狙う。
 
 **Prompt Strategy:**
 - **Aesthetic**: "Hard Flash photography", "Street-luxury lookbook", "Paparazzi aesthetic".

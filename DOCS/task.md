@@ -41,6 +41,11 @@
     - [x] Generate Vibe Coder Master Design (Spec 2.0) <!-- id: 102 -->
     - [x] Generate Imagen 4.0 Ultra Vibe Image (Paparazzi Aesthetic) <!-- id: 103 -->
     - [x] Update Shopify Product with Spec 2.0 Visuals <!-- id: 104 -->
+
+- [x] Phase 12: Spec 2.3 High-Resolution Loop (3000px Optimized) <!-- id: 110 -->
+    - [x] Upgrade scripts to 3000px resolution (Stability Optimized) <!-- id: 111 -->
+    - [x] Implement `generate_vibe_image.py` (HD 1536px Target) <!-- id: 112 -->
+    - [x] Finalize 3-Layer Visual Registry (Vibe-Mockup-Master) <!-- id: 113 -->
 - [x] Implemented 1400px Vertical Box & Centered QR Layout (scripts/composite_design.js) <!-- id: 72 -->
 - [x] Implemented Extreme Max Width & Central QR Layout (scripts/composite_design.js) <!-- id: 71 -->
 - [x] Implemented Unified Image Sync Workflow (scripts/unified_image_sync.js) <!-- id: 70 -->
